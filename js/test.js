@@ -82,6 +82,7 @@ function cbPush(resp) {
 
 function getLocation()
         {
+            console.log("getLocation")
             var options = {
                 enableHighAccuracy:true,
                 maximumAge:1000
