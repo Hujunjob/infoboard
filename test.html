@@ -28,7 +28,7 @@
 					信息集市
 				</h1>
 				<p>
-					完全区中心化的信息发布平台，基于区块链技术，实现了信息发布的完全去中心化，保证了信息发布者的匿名性。基于地理位置信息，可以很方便的发布和查询附近发布的信息，完成悬赏任务、交友等。
+					去中心化的信息发布平台，基于区块链技术，实现了信息发布的完全去中心化，保证了信息发布者的匿名性和信息安全。基于地理位置信息，可以很方便的查询附近发布的信息，完成悬赏任务、交友等。
 				</p>
 				<p>
 					 <a class="btn btn-primary btn-large" href="#">更多信息</a>
@@ -48,9 +48,11 @@
 					 <label for="exampleInputNickname">昵称（选填）</label><input  class="form-control" id="exampleInputNickname" />
 				</div>
 				
-				<div class="checkbox">
+				<div class="checkbox" >
 					 <label><input type="checkbox" />包含模糊地理位置（精度数百米）</label>
-				</div> <button type="submit" class="btn btn-default">发布</button>
+				</div> 
+				<button type="submit" class="btn btn-default" id="btn_submit">发布</button>
+				<button type="submit" class="btn btn-default" id="btn_refresh">刷新</button>
 			</form>
 			<div class="alert alert-success alert-dismissable" id="wallet_alert">
 				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -58,9 +60,15 @@
 					注意!
 				</h4> 发布信息需要安装NAS钱包插件才ok哟！ <a href="#" class="alert-link">钱包安装教程</a>
 			</div>
+			<div class="alert alert-success alert-dismissable" id="noinfo_alert" hidden>
+				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				<h4>
+					注意!
+				</h4> 链上没有任何消息，赶紧发消息吧！ 
+			</div>
 			<nav class="navbar navbar-default" role="navigation">
 				<div class="navbar-header">
-					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">附近的人</a>
+					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">附近的消息</a>
 				</div>
 				
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -101,7 +109,7 @@
 							发布者
 						</th>
 						<th>
-							位置信息
+							联系方式
 						</th>
 					</tr>
 				</thead>
@@ -111,13 +119,13 @@
 						<td>
 							1
 						</td>
-						<td>
-							TB - Monthly
+						<td id="message">
+							message
 						</td>
-						<td>
+						<td id="author">
 							01/04/2012
 						</td>
-						<td>
+						<td id="contact">
 							Approved
 						</td>
 					</tr>
@@ -200,7 +208,7 @@
 					开发者
 				</dt>
 				<dd>
-					Lucky胡.
+					Lucky胡
 				</dd>
 				<dd>
 					Wechat:hujunjob
