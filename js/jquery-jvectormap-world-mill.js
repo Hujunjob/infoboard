@@ -585,7 +585,7 @@ jQuery.fn.vectorMap('addMap', 'world_mill', {
         },
         "TW": {
             "path": "M724.01,226.68l-0.74,1.48l-0.9,-1.52l-0.25,-1.74l1.38,-2.44l1.73,-1.74l0.64,0.44l-1.85,5.52Z",
-            "name": "Taiwan"
+            "name": "China Taiwan Province"
         },
         "TT": {
             "path": "M266.64,259.32l0.28,-1.16l1.13,-0.22l-0.06,1.2l-1.35,0.18Z",

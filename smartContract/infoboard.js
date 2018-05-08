@@ -30,6 +30,8 @@ var InfoItem = function (text){
     }
 };
 
+
+
 InfoItem.prototype = {
     toString:function(){
         return JSON.stringify(this);
@@ -38,6 +40,7 @@ InfoItem.prototype = {
 
 //消息管理类
 var InfoManager = function(){
+    //用于存储地址对应的数据
     LocalContractStorage.defineMapProperty(this, "repo", {
         parse: function (text) {
             return new InfoItem(text);
@@ -46,14 +49,22 @@ var InfoManager = function(){
             return o.toString();
         }
     });
+    //用于按照size递增存储data，便于遍历数据
+    LocalContractStorage.defineMapProperty(this, "arrayMap");
+    //用于存储某个地址有多少条数据
+    LocalContractStorage.defineMapProperty(this, "sizeMap");
+    // this.size = 0;
+    
 };
 
 InfoManager.prototype = {
     init:function(){
-        this.size = 0;
+        // this.size = 0;
+        //存储size
+        LocalContractStorage.put("storage_size",0);
     },
+    save:function(nickname,longitude,latitude,message,contact){
 
-    save:function(key,nickname,timestamp,longitude,latitude,message,contact){
         nickname = nickname.trim();
         message = message.trim();
         contact = contact.trim();
@@ -65,14 +76,8 @@ InfoManager.prototype = {
             throw new Error("message exceed limit length");
         };
 
-/*
-        this.author = "";
-        this.nickname = "";
-        this.timestamp = new BigNumber(0);
-        this.longitude = 0.0;
-        this.latitude = 0.0;
-        this.message = "";
-        this.contact = "";*/
+        var d = new Date();
+        var timestamp = d.toString();
 
         var from = Blockchain.transaction.from;
         var info = new InfoItem();
@@ -84,14 +89,87 @@ InfoManager.prototype = {
         info.message = message;
         info.contact = contact;
 
-        // var key = this.size;
+        latitude = parseFloat(latitude);
+        longitude = parseFloat(longitude);
 
-        this.repo.put(key,info);
-        this.size +=1;
+        if (latitude>90 || latitude<-90) {
+            throw new Error("latitude exceed limit range");
+        };
+
+        if (longitude>180 || longitude<-180) {
+            throw new Error("longitude exceed limit range");
+        };
+
+        var key = latitude.toFixed(4) + "," +longitude.toFixed(4);
+
+        var size = this.sizeMap.get(key);
+        var dataKey = key;
+        if (size) {
+            //如果该地址已经存储了数据
+            dataKey = key + ","+ size;
+            size+=1;
+        }else{
+            //如果该地址没有存储数据
+            dataKey = key + ",0";
+            size = 1;
+        }
+        //存储某地址含有的数据个数
+        this.sizeMap.put(key,size);
+
+        //存储地图数据
+        this.repo.put(dataKey,info);
+
+        var size = LocalContractStorage.get("storage_size");
+        // throw new Error(size);
+        
+        LocalContractStorage.put("1", size);
+        //存储递增数据
+        this.arrayMap.put(size,dataKey);
+        LocalContractStorage.set("storage_size",parseInt(size)+1);
+
     },
-    get:function(key){
+    getByKey:function(key){
         return this.repo.get(key);
+    },
+    getKeyByIndex:function(index){
+        return this.arrayMap.get(index);
+    },
+    len:function(){
+        return LocalContractStorage.get("storage_size");
+    },
+    //根据经纬度和区域大小了获得数据
+    getByLocation:function(latitude,longitude,area){
+
+    },
+    //根据有数据的位置来获取
+    forEach:function(start,end){
+        start = parseInt(start);
+        end = parseInt(end);
+        var size = LocalContractStorage.get("storage_size");
+        size = parseInt(size);
+        if (start>size || start<0) {
+            throw new Error("start exceed limit range");
+        };
+        if (end<start) {
+            throw new Error("end exceed limit range");
+        };
+        if(end>size){
+            end = size;
+        }
+        var result="";
+
+        for (var i = start; i < end; i++) {
+            var key = this.arrayMap.get(i.toString());
+            if (!key)continue;
+            var item = this.repo.get(key);
+            if(!item)continue;
+            result += item+"|";
+        };
+
+        return result;
     }
+
+
 };
 
 module.exports = InfoManager;
