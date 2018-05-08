@@ -65,6 +65,7 @@
 			</form>
 			<button id="btn_submit">发布</button>
 			<button  id="btn_refresh">刷新</button>
+
 			<div class="alert alert-success alert-dismissable" id="wallet_alert">
 				 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
 				<h4>
@@ -82,39 +83,12 @@
 					 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"> <span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button> <a class="navbar-brand" href="#">附近的消息</a>
 				</div>
 				
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<!-- <div class="dropdown">
-    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">距离
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">1km</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">10km</a>
-        </li>
-        <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">100km</a>
-        </li>
-                <li role="presentation">
-            <a role="menuitem" tabindex="-1" href="#">全部</a>
-        </li>
-        
-    </ul>
-</div>
-					
-				</div> -->
-				
 			</nav>
-			<table class="table table-hover">
+			<table class="table table-hover" id="infotable">
 				<thead>
 					<tr>
 						<th>
-							编号
-						</th>
-						<th>
-							信息
+							信息内容
 						</th>
 						<th>
 							发布者
@@ -124,68 +98,12 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody id="info_table">
 					
-					<tr>
-						<td>
-							1
-						</td>
-						<td id="message">
-							hello
-						</td>
-						<td id="author">
-							01/04/2012
-						</td>
-						<td id="contact">
-							Approved
-						</td>
-					</tr>
-					<tr>
-						<td>
-							2
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							02/04/2012
-						</td>
-						<td>
-							Declined
-						</td>
-					</tr>
-					<tr >
-						<td>
-							3
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							03/04/2012
-						</td>
-						<td>
-							Pending
-						</td>
-					</tr>
-					<tr>
-						<td>
-							4
-						</td>
-						<td>
-							TB - Monthly
-						</td>
-						<td>
-							04/04/2012
-						</td>
-						<td>
-							Call in to confirm
-						</td>
-					</tr>
 				</tbody>
 			</table>
-
-			<ul class="pagination">
+			<div id="pagination_div" hidden>
+				<ul class="pagination">
 				<li>
 					 <a href="#">Prev</a>
 				</li>
@@ -205,10 +123,19 @@
 					 <a href="#">5</a>
 				</li>
 				<li>
+					 <a href="#">...</a>
+				</li>
+				<li>
 					 <a href="#">Next</a>
 				</li>
 			</ul>
-			<dl>
+			</div>
+			
+			
+		</div>
+	</div>
+	<div id="world-map" style="width: 600px; height: 400px"></div>
+	<dl>
 				<dt>
 					感谢支持
 				</dt>
@@ -227,57 +154,9 @@
 				
 				
 			</dl>
-		</div>
-	</div>
-	<div id="world-map" style="width: 600px; height: 400px"></div>
 </div>
 
-  <script>
-    $(function(){
-      $('#world-map').vectorMap({
-      	map: 'world_mill',
-      	scaleColors: ['#C8EEFF', '#0071A4'],
-    normalizeFunction: 'polynomial',
-    hoverOpacity: 0.7,
-    hoverColor: false,
-    markerStyle: {
-      initial: {
-        fill: '#F8E23B',
-        stroke: '#383f47'
-      }
-    },
-    backgroundColor: '#383f47',
-    markers: [
-      {latLng: [41.90, 12.45], name: 'Vatican City'},
-      {latLng: [43.73, 7.41], name: 'Monaco'},
-      {latLng: [-0.52, 166.93], name: 'Nauru'},
-      {latLng: [-8.51, 179.21], name: 'Tuvalu'},
-      {latLng: [43.93, 12.46], name: 'San Marino'},
-      {latLng: [47.14, 9.52], name: 'Liechtenstein'},
-      {latLng: [7.11, 171.06], name: 'Marshall Islands'},
-      {latLng: [17.3, -62.73], name: 'Saint Kitts and Nevis'},
-      {latLng: [3.2, 73.22], name: 'Maldives'},
-      {latLng: [35.88, 14.5], name: 'Malta'},
-      {latLng: [12.05, -61.75], name: 'Grenada'},
-      {latLng: [13.16, -61.23], name: 'Saint Vincent and the Grenadines'},
-      {latLng: [13.16, -59.55], name: 'Barbados'},
-      {latLng: [17.11, -61.85], name: 'Antigua and Barbuda'},
-      {latLng: [-4.61, 55.45], name: 'Seychelles'},
-      {latLng: [7.35, 134.46], name: 'Palau'},
-      {latLng: [42.5, 1.51], name: 'Andorra'},
-      {latLng: [14.01, -60.98], name: 'Saint Lucia'},
-      {latLng: [6.91, 158.18], name: 'Federated States of Micronesia'},
-      {latLng: [1.3, 103.8], name: 'Singapore'},
-      {latLng: [1.46, 173.03], name: 'Kiribati'},
-      {latLng: [-21.13, -175.2], name: 'Tonga'},
-      {latLng: [15.3, -61.38], name: 'Dominica'},
-      {latLng: [-20.2, 57.5], name: 'Mauritius'},
-      {latLng: [26.02, 50.55], name: 'Bahrain'},
-      {latLng: [0.33, 6.73], name: 'São Tomé and Príncipe'}
-    ]
-      });
-    });
-  </script>
+ 
 <script type="text/javascript" src="js/test.js"></script>
 
    </body>
