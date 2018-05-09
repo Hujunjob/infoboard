@@ -9,7 +9,7 @@ if (typeof (webExtensionWallet) === "undefined") {
     $("#wallet_alert").hide();
 }
 
-var dappAddress = "n1k1Tzm8EXvN4cxAZHn944KBxUoM9cFLmsV";
+var dappAddress = "n1u1mn29qxUV2BV8TXyZfTi12qgKwkGAjYk";
 var value = "0";
 var allCount = 0;
 
