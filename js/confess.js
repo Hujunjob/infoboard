@@ -36,6 +36,7 @@ $(function() {
     }).then(function(tx) {
         arrs = JSON.parse(tx.result);
         console.log(arrs);
+        alert(arrs);
         // init();
         // setTimeout(function() {
         //     setInterval(function() {

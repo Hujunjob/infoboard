@@ -48,18 +48,34 @@ function refreshData() {
 }
 
 function initPageData() {
-    var to = dappAddress;
-    var value = "0";
-    var callFunction = "len";
-    var start = 0;
-    var end = 2;
-    nebPay.simulateCall(to, value, callFunction, "[]", {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
-        listener: function (resp) {
+    // var to = dappAddress;
+    // var value = "0";
+    // var callFunction = "len";
+    // var start = 0;
+    // var end = 2;
+    // nebPay.simulateCall(to, value, callFunction, "[]", {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
+    //     listener: function (resp) {
+    //         var result = resp.result;
+    //         allCount = parseInt(result);
+    //         console.log("allcount=" + allCount);
+    //         refreshData();
+    //     }      //指定回调函数
+    // });
+    myneb.api.call({
+        from: dappAddress,
+        to: dappAddress,
+        value: 0,
+        contract: {
+            function: "len",
+        },
+        gasPrice: 1000000,
+        gasLimit: 2000000,
+    }).then(function(resp) {
             var result = resp.result;
             allCount = parseInt(result);
             console.log("allcount=" + allCount);
+            // alert(allCount);
             refreshData();
-        }      //指定回调函数
     });
 }
 
