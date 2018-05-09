@@ -23,34 +23,9 @@
 	<!-- 包括所有已编译的插件 -->
 	<script src="js/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WgPd0NlNdxGScggPIpvDGffc"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WgPd0NlNdxGScggPIpvDGffc"></script>
 	<script src="js/jquery-jvectormap-2.0.3.min.js"></script>
 	<script src="js/jquery-jvectormap-world-mill.js"></script>
-<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>   
-<script>   
-      console.log(returnCitySN);
-</script> 
-
-<script>
-
-getLocation();
-
-function getLocation()
-  {
-  if (navigator.geolocation)
-    {
-    navigator.geolocation.getCurrentPosition(showPosition);
-    }
-  else{x.innerHTML="该浏览器不支持获取地理位置。";}
-  }
-function showPosition(position)
-  {
-  var innerHTML="纬度: " + position.coords.latitude + 
-  "<br>经度: " + position.coords.longitude;	
-  console.log(innerHTML);
-  }
-</script>
-
 </head>
 
 <body>
@@ -86,7 +61,7 @@ function showPosition(position)
 							<span class="icon-bar"></span>
 						</button>
 						<a class="navbar-brand" href="#">附近的消息</a>
-										<button id="btn_refresh">刷新</button>
+						<button id="btn_refresh">刷新</button>
 					</div>
 
 				</nav>
@@ -143,36 +118,40 @@ function showPosition(position)
 		<div id="world-map" style="width: 600px; height: 400px"></div>
 
 
-				<form role="form">
-					<div class="form-group">
-						<label for="exampleInputContent">发布内容</label>
-						<input class="form-control" id="exampleInputContent" />
-					</div>
-					<div class="form-group">
-						<label for="exampleInputContact">联系方式（选填）</label>
-						<input class="form-control" id="exampleInputContact" />
-					</div>
-					<div class="form-group">
-						<label for="exampleInputNickname">昵称（选填）</label>
-						<input class="form-control" id="exampleInputNickname" />
-					</div>
+		<form role="form">
+			<div class="form-group">
+				<label for="exampleInputContent">发布内容</label>
+				<input class="form-control" id="exampleInputContent" />
+			</div>
+			<div class="form-group">
+				<label for="exampleInputContact">联系方式（选填）</label>
+				<input class="form-control" id="exampleInputContact" />
+			</div>
+			<div class="form-group">
+				<label for="exampleInputNickname">昵称（选填）</label>
+				<input class="form-control" id="exampleInputNickname" />
+			</div>
 
-					<div class="checkbox">
-						<label>包含模糊地理位置（精度数百米）</label>
-					</div>
-
-
-				</form>
-				<button id="btn_submit">发布</button>
+			<div class="checkbox">
+				<label>包含模糊地理位置（精度数百米）</label>
+			</div>
 
 
-				<div class="alert alert-success alert-dismissable" id="wallet_alert">
+		</form>
+		<button id="btn_submit">发布</button>
+
+
+<div class="alert alert-success alert-dismissable" id="load_alert" hidden>
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-					<h4>
-						注意!
-					</h4> 发布信息需要安装NAS钱包插件才ok哟！
-					<a href="#" class="alert-link">钱包安装教程</a>
+					 正在加载中...
 				</div>
+		<div class="alert alert-success alert-dismissable" id="wallet_alert">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			<h4>
+				注意!
+			</h4> 发布信息需要安装NAS钱包插件才ok哟！
+			<a href="#" class="alert-link">钱包安装教程</a>
+		</div>
 		<dl>
 			<dt>
 				感谢支持
@@ -187,7 +166,7 @@ function showPosition(position)
 				Lucky胡
 			</dd>
 			<dd>
-				Wechat:hujunjob
+				Email : hujunjob@qq.com
 			</dd>
 
 

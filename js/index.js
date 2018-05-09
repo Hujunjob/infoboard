@@ -10,7 +10,6 @@ if (typeof (webExtensionWallet) === "undefined") {
 }
 
 var dappAddress = "n1sgsPCNuR9sw2Nekr8qFNRtQG2ySj5fLfD";
-// var dappAddress = "n1unJNMNpDDdMu2kPKyevXbVsLxPZ4ycCoe";
 var value = "0";
 var allCount = 0;
 
@@ -34,14 +33,11 @@ function refreshData() {
 }
 
 function initPageData() {
-    // body...
-    // body...
     var to = dappAddress;
     var value = "0";
     var callFunction = "len";
     var start = 0;
     var end = 2;
-    // var callArgs = "[\"" + start + "\",\"" + end + "\"]"; //in the form of ["args"]
     nebPay.simulateCall(to, value, callFunction, "[]", {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
         listener: function (resp) {
             var result = resp.result;
@@ -99,13 +95,7 @@ function refreshPage(resp) {
             var html = "<tr><td>" + message + "</td><td>" + nickname + "</td><td>" + contact + "</td></tr>";
 
             $("#info_table").append(html);
-
-            console.log("message=" + message);
-
             mapMarkers.push({ name: nickname, latLng: [latitude, longitude] });
-            // $("#message").html(message);
-            // $("#author").html(nickname);
-            // $("#contact").html(contact);
         };
 
         mapObj.addMarkers(mapMarkers, []);
@@ -119,30 +109,32 @@ $("#btn_submit").click(function () {
     var message = $("#exampleInputContent").val();
     if (message === "") {
         alert("请填写发布内容");
-    }else
-    getLocation();
+    } else
+        getLocation();
 });
 
 function cbPush(resp) {
-    // var result = resp.result;
-    // console.log("response of push: " + result);
+    var result = resp.result;
+    console.log("response of push: " + result);
     // if (result!='null') {
 
     // };
 }
 
 function getLocation() {
-    console.log("getLocation")
+    console.log("getLocation");
+    $("#load_alert").show();
 
-var geolocation = new BMap.Geolocation();
-geolocation.getCurrentPosition(function(r){
-  if(this.getStatus() == BMAP_STATUS_SUCCESS){
-    onSuccess(r.point.lat,r.point.lng);
-  }
-  else {
-    alert('failed'+this.getStatus());
-  }        
-});
+    var geolocation = new BMap.Geolocation();
+    geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            onSuccess(r.point.lat, r.point.lng);
+            $("#load_alert").hide();
+        }
+        else {
+            alert('failed' + this.getStatus());
+        }
+    });
     //浏览器定位，但是在Chrome里面需要用到Google定位，国内没法用
     // var options = {
     //     enableHighAccuracy: true,
@@ -164,27 +156,23 @@ function error() {
 function onError(position) {
     console.log(position);//打印错误信息
     var innerHTML = "获取位置错误";
-    switch(error.code) 
-    {
+    switch (error.code) {
         case error.PERMISSION_DENIED:
-            innerHTML="用户拒绝对获取地理位置的请求。需要科学上网获取位置"
+            innerHTML = "用户拒绝对获取地理位置的请求。需要科学上网获取位置"
             break;
         case error.POSITION_UNAVAILABLE:
-            innerHTML="位置信息是不可用的。需要科学上网获取位置"
+            innerHTML = "位置信息是不可用的。需要科学上网获取位置"
             break;
         case error.TIMEOUT:
-            innerHTML="请求用户地理位置超时。需要科学上网获取位置"
+            innerHTML = "请求用户地理位置超时。需要科学上网获取位置"
             break;
         case error.UNKNOWN_ERROR:
-            innerHTML="未知错误。需要科学上网获取位置"
+            innerHTML = "未知错误。需要科学上网获取位置"
             break;
     }
     alert(innerHTML);
 }
-function onSuccess(lat,lag) {
-    // console.log(position);//打印位置信息
-    // var lat = position.coords.latitude; //纬度 
-    // var lag = position.coords.longitude; //经度 
+function onSuccess(lat, lag) {
     var message = $("#exampleInputContent").val();
     console.log("message " + message);
     var contact = $("#exampleInputContact").val();
@@ -194,8 +182,6 @@ function onSuccess(lat,lag) {
     var to = dappAddress;
     var value = "0";
     var callFunction = "save";
-    // var key = "key1";
-
     var callArgs = "[\"" + nickname + "\",\"" + lag + "\",\"" + lat + "\",\"" + message + "\",\"" + contact + "\"]";
 
     nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
@@ -203,6 +189,7 @@ function onSuccess(lat,lag) {
     });
 }
 
+//地图插件
 var mapObj = new jvm.Map({
     container: $('#world-map'),
     map: 'world_mill',
