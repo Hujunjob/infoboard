@@ -1,6 +1,3 @@
-var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
-var nebPay = new NebPay();
-
 var HttpRequest = require("nebulas").HttpRequest;
 var Neb = require("nebulas").Neb;
 var Account = require("nebulas").Account;
@@ -20,6 +17,8 @@ if (typeof (webExtensionWallet) === "undefined") {
 }
 
 var dappAddress = "n1u1mn29qxUV2BV8TXyZfTi12qgKwkGAjYk";
+// dappAddress = "n1sgsPCNuR9sw2Nekr8qFNRtQG2ySj5fLfD";
+
 var value = "0";
 var allCount = 0;
 
@@ -48,19 +47,6 @@ function refreshData() {
 }
 
 function initPageData() {
-    // var to = dappAddress;
-    // var value = "0";
-    // var callFunction = "len";
-    // var start = 0;
-    // var end = 2;
-    // nebPay.simulateCall(to, value, callFunction, "[]", {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
-    //     listener: function (resp) {
-    //         var result = resp.result;
-    //         allCount = parseInt(result);
-    //         console.log("allcount=" + allCount);
-    //         refreshData();
-    //     }      //指定回调函数
-    // });
     myneb.api.call({
         from: dappAddress,
         to: dappAddress,
@@ -218,9 +204,18 @@ function onSuccess(lat, lag) {
     var callFunction = "save";
     var callArgs = "[\"" + nickname + "\",\"" + lag + "\",\"" + lat + "\",\"" + message + "\",\"" + contact + "\"]";
 
-    nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
-        listener: cbPush
-    });
+    window.postMessage({
+            "target": "contentscript",
+            "data": {
+                "to": to,
+                "value": "0",
+                "contract": {
+                    "function": "save",
+                    "args": JSON.stringify([nickname,lag,lat,message,contact])
+                }
+            },
+            "method": "neb_sendTransaction"
+        }, "*");
 }
 
 //地图插件
