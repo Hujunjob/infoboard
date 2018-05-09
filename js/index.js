@@ -1,6 +1,16 @@
 var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
 var nebPay = new NebPay();
 
+var HttpRequest = require("nebulas").HttpRequest;
+var Neb = require("nebulas").Neb;
+var Account = require("nebulas").Account;
+var Transaction = require("nebulas").Transaction;
+var Unit = require("nebulas").Unit;
+var myneb = new Neb();
+myneb.setRequest(new HttpRequest("https://mainnet.nebulas.io"));
+var account, tx, txhash;
+// var dapp_address = "n1u1mn29qxUV2BV8TXyZfTi12qgKwkGAjYk";
+
 //to check if the extension is installed
 //if the extension is installed, var "webExtensionWallet" will be injected in to web page
 if (typeof (webExtensionWallet) === "undefined") {
@@ -20,15 +30,20 @@ $("#btn_refresh").click(function () {
 });
 
 function refreshData() {
-    // body...
-    var to = dappAddress;
-    var value = "0";
-    var callFunction = "forEach";
-    var start = 0;
-    var end = allCount;
-    var callArgs = "[\"" + start + "\",\"" + end + "\"]"; //in the form of ["args"]
-    nebPay.simulateCall(to, value, callFunction, callArgs, {    //使用nebpay的simulateCall接口去执行get查询, 模拟执行.不发送交易,不上链
-        listener: refreshPage      //指定回调函数
+    myneb.api.call({
+        from: dappAddress,
+        to: dappAddress,
+        value: 0,
+        contract: {
+            function: "forEach",
+            args: JSON.stringify([0, 5])
+        },
+        gasPrice: 1000000,
+        gasLimit: 2000000,
+    }).then(function(tx) {
+        arrs = JSON.parse(tx.result);
+        console.log(arrs);
+        refreshPage(tx);
     });
 }
 
@@ -173,6 +188,9 @@ function onError(position) {
     alert(innerHTML);
 }
 function onSuccess(lat, lag) {
+    //116.349652,39.894567
+    // lat = 39.894567;
+    // lag = 116.349652;
     var message = $("#exampleInputContent").val();
     console.log("message " + message);
     var contact = $("#exampleInputContact").val();
