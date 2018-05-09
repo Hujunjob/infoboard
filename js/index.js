@@ -9,14 +9,14 @@ if (typeof (webExtensionWallet) === "undefined") {
     $("#wallet_alert").hide();
 }
 
-var dappAddress = "n1sgsPCNuR9sw2Nekr8qFNRtQG2ySj5fLfD";
+var dappAddress = "n1k1Tzm8EXvN4cxAZHn944KBxUoM9cFLmsV";
 var value = "0";
 var allCount = 0;
 
 initPageData();
 
 $("#btn_refresh").click(function () {
-    refreshData();
+    initPageData();
 });
 
 function refreshData() {
