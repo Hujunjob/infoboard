@@ -23,9 +23,33 @@
 	<!-- 包括所有已编译的插件 -->
 	<script src="js/bootstrap.min.js"></script>
 
-
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=WgPd0NlNdxGScggPIpvDGffc"></script>
 	<script src="js/jquery-jvectormap-2.0.3.min.js"></script>
 	<script src="js/jquery-jvectormap-world-mill.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>   
+<script>   
+      console.log(returnCitySN);
+</script> 
+
+<script>
+
+getLocation();
+
+function getLocation()
+  {
+  if (navigator.geolocation)
+    {
+    navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  else{x.innerHTML="该浏览器不支持获取地理位置。";}
+  }
+function showPosition(position)
+  {
+  var innerHTML="纬度: " + position.coords.latitude + 
+  "<br>经度: " + position.coords.longitude;	
+  console.log(innerHTML);
+  }
+</script>
 
 </head>
 
@@ -62,6 +86,7 @@
 							<span class="icon-bar"></span>
 						</button>
 						<a class="navbar-brand" href="#">附近的消息</a>
+										<button id="btn_refresh">刷新</button>
 					</div>
 
 				</nav>
@@ -139,7 +164,7 @@
 
 				</form>
 				<button id="btn_submit">发布</button>
-				<button id="btn_refresh">刷新</button>
+
 
 				<div class="alert alert-success alert-dismissable" id="wallet_alert">
 					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>

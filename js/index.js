@@ -1,8 +1,6 @@
 var NebPay = require("nebpay");     //https://github.com/nebulasio/nebPay
 var nebPay = new NebPay();
 
-
-
 //to check if the extension is installed
 //if the extension is installed, var "webExtensionWallet" will be injected in to web page
 if (typeof (webExtensionWallet) === "undefined") {
@@ -135,18 +133,30 @@ function cbPush(resp) {
 
 function getLocation() {
     console.log("getLocation")
-    var options = {
-        enableHighAccuracy: true,
-        timeout:5000,
-        maximumAge: 1000
-    };
-    if (navigator.geolocation) {
-        //浏览器支持geolocation
-        navigator.geolocation.getCurrentPosition(onSuccess, onError, options);//调用成功则调用onSuccess函数，失败则调用onError函数
-    } else {
-        //浏览器不支持geolocation
-        error();//调用error函数提示用户
-    }
+
+var geolocation = new BMap.Geolocation();
+geolocation.getCurrentPosition(function(r){
+  if(this.getStatus() == BMAP_STATUS_SUCCESS){
+    onSuccess(r.point.lat,r.point.lng);
+  }
+  else {
+    alert('failed'+this.getStatus());
+  }        
+});
+    //浏览器定位，但是在Chrome里面需要用到Google定位，国内没法用
+    // var options = {
+    //     enableHighAccuracy: true,
+    //     timeout:5000,
+    //     maximumAge: 1000
+    // };
+    // if (navigator.geolocation) {
+    //     //浏览器支持geolocation
+    //     navigator.geolocation.getCurrentPosition(onSuccess);//
+    //     // navigator.geolocation.getCurrentPosition(showPosition);调用成功则调用onSuccess函数，失败则调用onError函数
+    // } else {
+    //     //浏览器不支持geolocation
+    //     error();//调用error函数提示用户
+    // }
 }
 function error() {
     alert("sorry , your brower is not  used   for this position!  ");
@@ -171,10 +181,10 @@ function onError(position) {
     }
     alert(innerHTML);
 }
-function onSuccess(position) {
-    console.log(position);//打印位置信息
-    var lat = position.coords.latitude; //纬度 
-    var lag = position.coords.longitude; //经度 
+function onSuccess(lat,lag) {
+    // console.log(position);//打印位置信息
+    // var lat = position.coords.latitude; //纬度 
+    // var lag = position.coords.longitude; //经度 
     var message = $("#exampleInputContent").val();
     console.log("message " + message);
     var contact = $("#exampleInputContact").val();
