@@ -35,7 +35,7 @@ function refreshData() {
         value: 0,
         contract: {
             function: "forEach",
-            args: JSON.stringify([0, 5])
+            args: JSON.stringify([0, allCount])
         },
         gasPrice: 1000000,
         gasLimit: 2000000,
